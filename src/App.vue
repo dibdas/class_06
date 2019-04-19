@@ -1,17 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <show-text v-bind:msg="message" ></show-text>
+    <my-button v-on:myEvent="onClick"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios"
+import ShowText from './components/ShowText.vue'
+import MyButton from './components/MyButton.vue'
 
 export default {
   name: 'app',
+  data(){
+    return {
+      message: "No Message"
+    }
+  },
   components: {
-    HelloWorld
+    ShowText,
+    MyButton
+  },
+  methods: {
+    onClick(){      
+      axios.get("http://localhost:3000/goodbye")
+      .then(response => {
+        this.message = response.data
+      })
+    }
   }
 }
 </script>
